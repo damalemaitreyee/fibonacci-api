@@ -5,3 +5,4 @@ Flask-SQLAlchemy
 Flask-Migrate
 SQLAlchemy~=2.0.19
 python-dotenv
+pytest

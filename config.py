@@ -25,4 +25,10 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://postgres:test@localhost:6543/fib"
 
 
+class TestConfig(Config):
+    TESTING = True
+    WTF_CSRF_ENABLED = False
+    MAIL_SUPPRESS_SEND = True
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, 'test.db')
+
 # We can add multiple environments and their configurations in this file
