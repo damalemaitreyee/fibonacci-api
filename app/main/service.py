@@ -1,30 +1,24 @@
-from app.main.model import Fibonacci, db
+from app.main.model import Fibonacci, create_fibonacci
+from flask import current_app
 
 
 class FibonacciService:
     def get_fibonacci(self, number):
-        # logging.Logger.log("Inside get_fibonacci")
+        current_app.logger.info("Get fibonacci series till %s", number)
         fib_series = self.get_fibonacci_by_number(number)
         if not fib_series:
+            current_app.logger.info("Fibonacci series till %s is not present in database", number)
             fib_series = self.generate_fibonacci(number)
-            self.create_fibonacci(number, self.list_to_string(fib_series))
+            create_fibonacci(number, self.list_to_string(fib_series))
         return fib_series
 
     def get_fibonacci_by_number(self, number):
-        # logging.Logger.log("Inside get_fibonacci_by_number")
         fibonacci = Fibonacci.query.get(number)
-        if fibonacci.series:
+        if fibonacci and fibonacci.series:
             return self.string_to_list(fibonacci.series)
 
-    def create_fibonacci(self, number, series):
-        # logging.Logger.log("Inside create_fibonacci")
-        fibonacci = Fibonacci(number=number, series=series)
-        db.session.add(fibonacci)
-        db.session.commit()
-        return fibonacci
-
     def generate_fibonacci(self, number):
-        # logging.Logger.log("Inside generate_fibonacci")
+        current_app.logger.info("Generating Fibonacci series till %s", number)
         if number <= 0:
             return []
         memo = [0] * (number + 1)

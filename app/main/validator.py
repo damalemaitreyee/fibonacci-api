@@ -7,7 +7,6 @@ class InputValidationException(Exception):
 def validate_input(number):
     try:
         integer_num = int(number)
-        print(integer_num)
         return integer_num
     except ValueError:
         raise InputValidationException("Invalid integer format")
