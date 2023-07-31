@@ -1,4 +1,4 @@
-from flask import request, jsonify, abort
+from flask import request, jsonify, abort, current_app
 from . import main_blueprint
 from .service import FibonacciService
 from .validator import validate_input, InputValidationException
@@ -8,6 +8,7 @@ service = FibonacciService()
 
 @main_blueprint.route('/fibonacci', methods=['GET'])
 def admin():
+    current_app.logger.info("Here")
     if request.method == 'GET':
         try:
             if 'input' in request.args:

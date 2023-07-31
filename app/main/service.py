@@ -17,5 +17,5 @@ class FibonacciService:
 
     def get_fibonacci_by_number(self, number):
         fibonacci = Fibonacci.query.get(number)
-        if fibonacci and fibonacci.series:
+        if fibonacci:
             return string_to_list(fibonacci.series)

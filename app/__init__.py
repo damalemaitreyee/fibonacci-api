@@ -3,7 +3,7 @@ import os
 from logging.handlers import RotatingFileHandler
 
 from flask import Flask, jsonify
-from flask.logging import default_handler
+from flask_migrate import Migrate
 
 from app.extensions import db
 
@@ -18,6 +18,7 @@ def create_app():
 
     # Initialize Flask extensions here. Init DB
     db.init_app(app)
+    Migrate(app, db)
 
     # Register blueprints
     register_blueprints(app)
@@ -47,18 +48,19 @@ def register_error_handlers(app):
 
     @app.errorhandler(500)
     def server_error(e):
+        print(e)
         return jsonify({'error': e.description}), 500
 
 
 def configure_logging(app):
     # Deactivate the default flask logger so that log messages don't get duplicated
-    app.logger.removeHandler(default_handler)
+    # app.logger.removeHandler(default_handler)
 
     # Create a file handler object
     file_handler = RotatingFileHandler('flaskapp.log', maxBytes=16384, backupCount=20)
 
     # Set the logging level of the file handler object so that it logs INFO and up
-    file_handler.setLevel(logging.INFO)
+    file_handler.setLevel(logging.DEBUG)
 
     # Create a file formatter object
     file_formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(filename)s: %(lineno)d]')

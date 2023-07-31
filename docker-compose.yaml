@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: db-Dockerfile
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: fib-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  flask_app:
+    build:
+      context: .
+      dockerfile: app-Dockerfile
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: fib-db
+      CONFIG_TYPE: config.ProductionConfig
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
