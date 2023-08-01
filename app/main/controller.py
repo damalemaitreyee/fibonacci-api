@@ -1,4 +1,6 @@
 from flask import request, jsonify, abort, current_app
+from flask_cors import cross_origin
+
 from . import main_blueprint
 from .service import FibonacciService
 from .validator import validate_input, InputValidationException
@@ -6,8 +8,9 @@ from .validator import validate_input, InputValidationException
 service = FibonacciService()
 
 
+@cross_origin
 @main_blueprint.route('/fibonacci', methods=['GET'])
-def admin():
+def fib():
     current_app.logger.info("Here")
     if request.method == 'GET':
         try:

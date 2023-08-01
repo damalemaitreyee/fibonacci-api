@@ -3,6 +3,7 @@ import os
 from logging.handlers import RotatingFileHandler
 
 from flask import Flask, jsonify
+from flask_cors import CORS
 from flask_migrate import Migrate
 
 from app.extensions import db
@@ -11,6 +12,9 @@ from app.extensions import db
 # Application Factory
 def create_app():
     app = Flask(__name__)
+
+    cors = CORS(app)
+    app.config['CORS_HEADERS'] = 'Content-Type'
 
     # Configure the flask app instance
     CONFIG_TYPE = os.getenv('CONFIG_TYPE', default='config.DevelopmentConfig')

@@ -9,6 +9,8 @@ def validate_input(number):
         integer_num = int(number)
         if integer_num < 0:
             raise InputValidationException("Negative numbers are not supported")
+        if integer_num == 0:
+            raise InputValidationException("Enter value greater than 0")
         return integer_num
     except ValueError:
         raise InputValidationException("Invalid integer format")
